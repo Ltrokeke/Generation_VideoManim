@@ -40,8 +40,7 @@ ANIM_SPEED_SLOW = 1.5     # Animation chậm (giải thích chi tiết)
 # =============================================================================
 # FONT SETTINGS
 # =============================================================================
-# Font chuẩn Sans-serif hiện đại cho Windows (tránh lỗi font có chân & lỗi kerning)
-FONT_DEFAULT = "Segoe UI"
+FONT_DEFAULT = "sans-serif"
 
 # Font sizes (tỷ lệ cho Text mobject)
 FONT_SIZE_TITLE = 56         # Tiêu đề chính
