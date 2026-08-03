@@ -7,10 +7,7 @@ Strict coordinates:
   - Refiner MLP:  RIGHT * 3 + DOWN * 0.5
   - Final Output: DOWN * 3 (centered along X)
 
-Animation (Reveal on Demand):
-  - Step 1: Create Router alone
-  - Step 2: Route x (Easy node) -> FadeIn Final Output -> Red Arrow -> Dot slides down
-  - Step 3: Route v (Hard node) -> Green Arrow -> Create LLM -> Yellow Arrow -> Create Refiner -> Purple Arrow to Final Output
+Pure English text, bright white title and crisp colors.
 """
 
 import sys
@@ -27,17 +24,22 @@ from components import *
 
 class Scene1_ArchitectureOverview(Scene):
     def construct(self):
-        # 1. BẮT BUỘC: Áp dụng cấu hình chuẩn của nhóm
+        # 1. Áp dụng cấu hình chuẩn của nhóm
         apply_scene_config(self)
 
-        # 2. Tiêu đề luôn ở đỉnh màn hình
-        title = Text("GLANCE Architecture Overview", font_size=32, weight=BOLD)
+        # 2. Tiêu đề màu trắng sáng nổi bật ở đỉnh màn hình
+        title = Text(
+            "GLANCE Architecture Overview",
+            font_size=32,
+            weight=BOLD,
+            color=WHITE,
+        )
         title.to_edge(UP, buff=0.4)
         self.play(FadeIn(title, shift=DOWN * 0.3), run_time=0.7)
         self.wait(WAIT_SHORT)
 
         # ============================================================
-        # ĐỊNH NGHĨA CÁC KHỐI HỘP THEO TỌA ĐỘ NGHIÊM NGẶT
+        # ĐỊNH NGHĨA CÁC KHỐI HỘP THEO TỌA ĐỘ
         # ============================================================
 
         # --- HỘP 1: ROUTER (LEFT * 4) ---
@@ -46,7 +48,7 @@ class Scene1_ArchitectureOverview(Scene):
             color=YELLOW, fill_color="#2d2305", fill_opacity=0.88, stroke_width=2.5,
         )
         r1_badge = Text("STEP 1", font_size=11, color=YELLOW, weight=BOLD)
-        r1_title = Text("Router", font_size=22, color=TEXT_PRIMARY, weight=BOLD)
+        r1_title = Text("Router", font_size=22, color=WHITE, weight=BOLD)
         r1_sub = Text("Node-level Routing", font_size=12, color=TEXT_SECONDARY)
         r1_content = VGroup(r1_badge, r1_title, r1_sub).arrange(DOWN, buff=0.1)
         router = VGroup(r1_box, r1_content).move_to(LEFT * 4.0)
@@ -57,7 +59,7 @@ class Scene1_ArchitectureOverview(Scene):
             color=BLUE, fill_color="#0d213a", fill_opacity=0.88, stroke_width=2.5,
         )
         llm_badge = Text("STEP 2", font_size=11, color=BLUE_B, weight=BOLD)
-        llm_title = Text("LLM Encoder", font_size=20, color=TEXT_PRIMARY, weight=BOLD)
+        llm_title = Text("LLM Encoder", font_size=20, color=WHITE, weight=BOLD)
         llm_sub = Text("Multi-layer Embedding", font_size=12, color=TEXT_SECONDARY)
         llm_content = VGroup(llm_badge, llm_title, llm_sub).arrange(DOWN, buff=0.1)
 
@@ -77,17 +79,17 @@ class Scene1_ArchitectureOverview(Scene):
             color=PURPLE, fill_color="#241238", fill_opacity=0.88, stroke_width=2.5,
         )
         ref_badge = Text("STEP 3", font_size=11, color=PURPLE_B, weight=BOLD)
-        ref_title = Text("Refiner MLP", font_size=20, color=TEXT_PRIMARY, weight=BOLD)
+        ref_title = Text("Refiner MLP", font_size=20, color=WHITE, weight=BOLD)
         ref_sub = Text("Prediction Fusion", font_size=12, color=TEXT_SECONDARY)
         ref_content = VGroup(ref_badge, ref_title, ref_sub).arrange(DOWN, buff=0.1)
         refiner_group = VGroup(ref_box, ref_content).move_to(RIGHT * 3.0 + DOWN * 0.5)
 
         # --- HỘP 4: FINAL OUTPUT (DOWN * 3, CĂN GIỮA TRỤC X) ---
         out_box = RoundedRectangle(
-            corner_radius=0.12, width=6.5, height=0.85,
+            corner_radius=0.12, width=6.8, height=0.85,
             color=GRAY, fill_color="#1e293b", fill_opacity=0.9, stroke_width=2.0,
         )
-        out_txt = Text("Final Output (GNN Predictions)", font_size=16, color=TEXT_PRIMARY, weight=BOLD)
+        out_txt = Text("Final Output (GNN Predictions)", font_size=16, color=WHITE, weight=BOLD)
         final_output = VGroup(out_box, out_txt).move_to(DOWN * 3.0)
 
         # ============================================================
@@ -101,12 +103,12 @@ class Scene1_ArchitectureOverview(Scene):
         self.wait(1.0)
 
         # ============================================================
-        # BƯỚC 2 (ROUTE x - NODE DỄ BỎ QUA LLM VÀ REFINER)
+        # BƯỚC 2 (ROUTE x - EASY NODE BỎ QUA LLM VÀ REFINER)
         # ============================================================
-        easy_tag = Text("Node Dễ", font_size=15, color=RED, weight=BOLD)
+        easy_tag = Text("Easy Node", font_size=15, color=RED, weight=BOLD)
         easy_tag.next_to(router, UP, buff=0.2)
 
-        # Nhấp nháy chữ 'Node Dễ'
+        # Nhấp nháy chữ 'Easy Node'
         self.play(FadeIn(easy_tag, shift=DOWN * 0.1), run_time=0.4)
         self.play(Indicate(easy_tag, color=RED, scale_factor=1.15), run_time=0.5)
 
@@ -141,12 +143,12 @@ class Scene1_ArchitectureOverview(Scene):
         self.wait(1.0)
 
         # ============================================================
-        # BƯỚC 3 (ROUTE v - NODE KHÓ ĐI QUA LLM VÀ REFINER)
+        # BƯỚC 3 (ROUTE v - HARD NODE ĐI QUA LLM VÀ REFINER)
         # ============================================================
-        hard_tag = Text("Node Khó", font_size=15, color=GREEN, weight=BOLD)
+        hard_tag = Text("Hard Node", font_size=15, color=GREEN, weight=BOLD)
         hard_tag.next_to(router, UP, buff=0.2)
 
-        # Nhấp nháy chữ 'Node Khó'
+        # Nhấp nháy chữ 'Hard Node'
         self.play(FadeIn(hard_tag, shift=DOWN * 0.1), run_time=0.4)
         self.play(Indicate(hard_tag, color=GREEN, scale_factor=1.15), run_time=0.5)
 
