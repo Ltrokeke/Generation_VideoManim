@@ -1,5 +1,5 @@
 """
-layout.py — Layout helpers: sắp xếp, căn chỉnh, khoảng cách.
+layout.py — Layout helpers: sắp xếp, căn chỉnh, khoảng cách, và lưu video.
 
 Sử dụng:
     from utils.layout import *
@@ -11,10 +11,16 @@ Sử dụng:
 
     title = Text("Hello")
     pin_to_edge(title, UP, margin=0.5)
+
+    # Lưu video:
+    save_latest_video("Scene1_Final.mp4")
 """
 
 from manim import *
 import numpy as np
+import os
+import shutil
+import glob
 
 
 # =============================================================================
@@ -175,3 +181,60 @@ def get_screen_region(position: str = "center") -> np.ndarray:
         "bottom_right": DOWN * FRAME_H / 4 + RIGHT * FRAME_W / 4,
     }
     return regions.get(position, ORIGIN)
+
+
+# =============================================================================
+# VIDEO EXPORT / SAVE HELPER
+# =============================================================================
+
+def save_latest_video(filename: str = "output_video.mp4", output_dir: str = "exports",
+                      open_folder: bool = True) -> str:
+    """
+    Tự động tìm video vừa render mới nhất (trong media/jupyter hoặc media/videos)
+    và lưu/copy vào thư mục output_dir với tên mong muốn.
+
+    Args:
+        filename: Tên file đích (VD: "Scene1_Final.mp4")
+        output_dir: Thư mục lưu (mặc định: "exports")
+        open_folder: Tự động mở thư mục trong File Explorer sau khi lưu
+
+    Returns:
+        Đường dẫn tuyệt đối file video đã lưu
+    """
+    if not filename.endswith(".mp4"):
+        filename += ".mp4"
+
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Tìm tất cả file mp4 hoàn chỉnh (loại bỏ partial_movie_files)
+    mp4_files = [
+        f for f in glob.glob("media/**/*.mp4", recursive=True)
+        if "partial_movie_files" not in f and not os.path.basename(f).startswith(".")
+    ]
+
+    if not mp4_files:
+        print("[WARNING] Khong tim thay file video nao trong thu muc media/. Hay chay render scene truoc!")
+        return None
+
+    # Lấy file có thời gian chỉnh sửa mới nhất
+    latest_file = max(mp4_files, key=os.path.getmtime)
+    dest_path = os.path.join(output_dir, filename)
+
+    shutil.copy2(latest_file, dest_path)
+    file_size_mb = os.path.getsize(dest_path) / (1024 * 1024)
+
+    abs_dest = os.path.abspath(dest_path)
+    print("=" * 60)
+    print(">>> DA LUU VIDEO THANH CONG!")
+    print(f"  * Ten file  : {filename}")
+    print(f"  * Vi tri    : {abs_dest}")
+    print(f"  * Dung luong: {file_size_mb:.2f} MB")
+    print("=" * 60)
+
+    if open_folder:
+        try:
+            os.startfile(os.path.abspath(output_dir))
+        except Exception:
+            pass
+
+    return abs_dest
