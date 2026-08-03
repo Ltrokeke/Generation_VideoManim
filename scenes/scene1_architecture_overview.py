@@ -1,6 +1,14 @@
 """
 scene1_architecture_overview.py — Scene 1: GLANCE Architecture Overview (Node-aware Fusion).
+
+Render:
+    manim -pql scenes/scene1_architecture_overview.py Scene1_ArchitectureOverview
 """
+
+import sys
+import os
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from manim import *
 import numpy as np
@@ -19,12 +27,14 @@ class Scene1_ArchitectureOverview(Scene):
 
     def construct(self):
         apply_scene_config(self)
+        FONT_UI = FONT_DEFAULT  # "Segoe UI"
 
         # ============================================================
         # PHASE 1: TITLE & SUBTITLE
         # ============================================================
         title = Text(
             "GLANCE Architecture (Node-aware Fusion)",
+            font=FONT_UI,
             font_size=32,
             color=TEXT_PRIMARY,
             weight=BOLD,
@@ -33,6 +43,7 @@ class Scene1_ArchitectureOverview(Scene):
 
         subtitle = Text(
             "Efficiency & Node-aware Adaptive Integration",
+            font=FONT_UI,
             font_size=15,
             color=TEXT_SECONDARY,
         )
@@ -53,9 +64,9 @@ class Scene1_ArchitectureOverview(Scene):
             corner_radius=0.15, width=BOX_W, height=BOX_H,
             color=GREEN, fill_color="#0f2d1e", fill_opacity=0.9, stroke_width=2.5,
         )
-        b1_badge = Text("STEP 1", font_size=11, color=GREEN_B, weight=BOLD)
-        b1_title = Text("Router", font_size=22, color=TEXT_PRIMARY, weight=BOLD)
-        b1_sub = Text("Feature Extraction\n& Node Routing", font_size=13, color=TEXT_SECONDARY, line_spacing=0.8)
+        b1_badge = Text("STEP 1", font=FONT_UI, font_size=11, color=GREEN_B, weight=BOLD)
+        b1_title = Text("Router", font=FONT_UI, font_size=22, color=TEXT_PRIMARY, weight=BOLD)
+        b1_sub = Text("Feature Extraction\n& Node Routing", font=FONT_UI, font_size=13, color=TEXT_SECONDARY, line_spacing=0.8)
         b1_content = VGroup(b1_badge, b1_title, b1_sub).arrange(DOWN, buff=0.12)
         b1 = VGroup(b1_rect, b1_content).move_to(LEFT * 4.3 + UP * BOX_Y)
 
@@ -64,9 +75,9 @@ class Scene1_ArchitectureOverview(Scene):
             corner_radius=0.15, width=BOX_W, height=BOX_H,
             color=BLUE, fill_color="#0d213a", fill_opacity=0.9, stroke_width=2.5,
         )
-        b2_badge = Text("STEP 2", font_size=11, color=BLUE_B, weight=BOLD)
-        b2_title = Text("LLM Embedding", font_size=20, color=TEXT_PRIMARY, weight=BOLD)
-        b2_sub = Text("Multi-layer Layer\nRepresentations", font_size=13, color=TEXT_SECONDARY, line_spacing=0.8)
+        b2_badge = Text("STEP 2", font=FONT_UI, font_size=11, color=BLUE_B, weight=BOLD)
+        b2_title = Text("LLM Embedding", font=FONT_UI, font_size=20, color=TEXT_PRIMARY, weight=BOLD)
+        b2_sub = Text("Multi-layer Layer\nRepresentations", font=FONT_UI, font_size=13, color=TEXT_SECONDARY, line_spacing=0.8)
         b2_content = VGroup(b2_badge, b2_title, b2_sub).arrange(DOWN, buff=0.12)
         b2 = VGroup(b2_rect, b2_content).move_to(UP * BOX_Y)
 
@@ -75,9 +86,9 @@ class Scene1_ArchitectureOverview(Scene):
             corner_radius=0.15, width=BOX_W, height=BOX_H,
             color=PURPLE, fill_color="#241238", fill_opacity=0.9, stroke_width=2.5,
         )
-        b3_badge = Text("STEP 3", font_size=11, color=PURPLE_B, weight=BOLD)
-        b3_title = Text("Refiner", font_size=22, color=TEXT_PRIMARY, weight=BOLD)
-        b3_sub = Text("Prediction Fusion\n& Knowledge Mix", font_size=13, color=TEXT_SECONDARY, line_spacing=0.8)
+        b3_badge = Text("STEP 3", font=FONT_UI, font_size=11, color=PURPLE_B, weight=BOLD)
+        b3_title = Text("Refiner", font=FONT_UI, font_size=22, color=TEXT_PRIMARY, weight=BOLD)
+        b3_sub = Text("Prediction Fusion\n& Knowledge Mix", font=FONT_UI, font_size=13, color=TEXT_SECONDARY, line_spacing=0.8)
         b3_content = VGroup(b3_badge, b3_title, b3_sub).arrange(DOWN, buff=0.12)
         b3 = VGroup(b3_rect, b3_content).move_to(RIGHT * 4.3 + UP * BOX_Y)
 
@@ -91,7 +102,7 @@ class Scene1_ArchitectureOverview(Scene):
             buff=0.12, color="#64748b", stroke_width=3.5, max_tip_length_to_length_ratio=0.28,
         )
 
-        # Sequential creation
+        # Sequential animation
         self.play(Create(b1_rect), FadeIn(b1_content, shift=UP * 0.2), run_time=0.7)
         self.play(GrowArrow(arrow1), run_time=0.4)
         self.play(Create(b2_rect), FadeIn(b2_content, shift=UP * 0.2), run_time=0.7)
@@ -102,27 +113,38 @@ class Scene1_ArchitectureOverview(Scene):
         # ============================================================
         # PHASE 3: FROZEN BACKBONES (GNN & LLM)
         # ============================================================
-        frozen_llm_badge = VGroup(
-            RoundedRectangle(
-                corner_radius=0.1, width=2.4, height=0.55,
-                color="#06b6d4", fill_color="#083344", fill_opacity=0.95, stroke_width=1.5,
-            ),
-            Text("❄ Frozen LLM", font_size=13, color="#22d3ee", weight=BOLD),
+        # Badge LLM
+        frozen_llm_box = RoundedRectangle(
+            corner_radius=0.1, width=2.5, height=0.52,
+            color="#06b6d4", fill_color="#083344", fill_opacity=0.95, stroke_width=1.5,
         )
-        frozen_llm_badge[1].move_to(frozen_llm_badge[0].get_center())
-        frozen_llm_badge.next_to(b2_rect, UP, buff=0.25)
+        frozen_llm_icon = Text("❄", font="Segoe UI Symbol", font_size=15, color="#22d3ee")
+        frozen_llm_txt = Text("Frozen LLM", font=FONT_UI, font_size=13, color="#22d3ee", weight=BOLD)
+        frozen_llm_content = VGroup(frozen_llm_icon, frozen_llm_txt).arrange(RIGHT, buff=0.12)
+        frozen_llm_content.move_to(frozen_llm_box.get_center())
+        frozen_llm_badge = VGroup(frozen_llm_box, frozen_llm_content)
+        frozen_llm_badge.next_to(b2_rect, UP, buff=0.22)
 
-        frozen_gnn_badge = VGroup(
-            RoundedRectangle(
-                corner_radius=0.1, width=2.4, height=0.55,
-                color="#06b6d4", fill_color="#083344", fill_opacity=0.95, stroke_width=1.5,
-            ),
-            Text("❄ Frozen GNN", font_size=13, color="#22d3ee", weight=BOLD),
+        # Badge GNN
+        frozen_gnn_box = RoundedRectangle(
+            corner_radius=0.1, width=2.5, height=0.52,
+            color="#06b6d4", fill_color="#083344", fill_opacity=0.95, stroke_width=1.5,
         )
-        frozen_gnn_badge[1].move_to(frozen_gnn_badge[0].get_center())
-        frozen_gnn_badge.move_to(frozen_llm_badge.get_center() + UP * 0.7)
+        frozen_gnn_icon = Text("❄", font="Segoe UI Symbol", font_size=15, color="#22d3ee")
+        frozen_gnn_txt = Text("Frozen GNN", font=FONT_UI, font_size=13, color="#22d3ee", weight=BOLD)
+        frozen_gnn_content = VGroup(frozen_gnn_icon, frozen_gnn_txt).arrange(RIGHT, buff=0.12)
+        frozen_gnn_content.move_to(frozen_gnn_box.get_center())
+        frozen_gnn_badge = VGroup(frozen_gnn_box, frozen_gnn_content)
+        frozen_gnn_badge.move_to(frozen_llm_badge.get_center() + UP * 0.65)
 
-        frozen_label = Text("Frozen Backbones (Zero Gradient Update)", font_size=14, color="#06b6d4", weight=SEMIBOLD)
+        # Clean header text (No font kerning issues)
+        frozen_label = Text(
+            "Frozen Backbones (Zero Gradient Update)",
+            font=FONT_UI,
+            font_size=14,
+            color="#06b6d4",
+            weight=SEMIBOLD,
+        )
         frozen_label.next_to(frozen_gnn_badge, UP, buff=0.18)
 
         self.play(
@@ -137,7 +159,13 @@ class Scene1_ArchitectureOverview(Scene):
         # ============================================================
         # PHASE 4: TRAINABLE MODULES HIGHLIGHT (Router & Refiner)
         # ============================================================
-        trainable_label = Text("★ Trainable Modules (Lightweight ~ Few Parameters)", font_size=15, color=YELLOW, weight=BOLD)
+        trainable_label = Text(
+            "★ Trainable Modules (Lightweight ~ Few Parameters)",
+            font=FONT_UI,
+            font_size=15,
+            color=YELLOW,
+            weight=BOLD,
+        )
         trainable_label.to_edge(DOWN, buff=0.5)
 
         trainable_box = SurroundingRectangle(

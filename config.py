@@ -40,9 +40,8 @@ ANIM_SPEED_SLOW = 1.5     # Animation chậm (giải thích chi tiết)
 # =============================================================================
 # FONT SETTINGS
 # =============================================================================
-# Font mặc định — thay đổi tại đây sẽ ảnh hưởng toàn bộ project
-# Cần cài font trên hệ thống hoặc đặt file .ttf/.otf vào assets/fonts/
-FONT_DEFAULT = "sans-serif"
+# Font chuẩn Sans-serif hiện đại cho Windows (tránh lỗi font có chân & lỗi kerning)
+FONT_DEFAULT = "Segoe UI"
 
 # Font sizes (tỷ lệ cho Text mobject)
 FONT_SIZE_TITLE = 56         # Tiêu đề chính
