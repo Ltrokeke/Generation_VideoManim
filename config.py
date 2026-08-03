@@ -40,7 +40,7 @@ ANIM_SPEED_SLOW = 1.5     # Animation chậm (giải thích chi tiết)
 # =============================================================================
 # FONT SETTINGS
 # =============================================================================
-FONT_DEFAULT = "sans-serif"
+FONT_DEFAULT = "Times New Roman"  # Font chuẩn học thuật cho toàn bộ nhóm
 
 # Font sizes (tỷ lệ cho Text mobject)
 FONT_SIZE_TITLE = 56         # Tiêu đề chính
@@ -58,7 +58,7 @@ FONT_WEIGHT_BOLD = BOLD
 # =============================================================================
 # BACKGROUND SETTINGS
 # =============================================================================
-BACKGROUND_COLOR = BG_DARK   # Nền tối mặc định
+BACKGROUND_COLOR = "#0f172a"   # Nền tối hiện đại (Slate-900)
 
 # =============================================================================
 # STROKE / LINE SETTINGS
@@ -82,7 +82,7 @@ DEFAULT_OPACITY = 0.9
 
 def apply_scene_config(scene: Scene):
     """
-    Áp dụng cấu hình toàn cục cho scene.
+    Áp dụng cấu hình toàn cục cho scene (Font Times New Roman, Background, Text color).
     Gọi ở đầu construct():
 
         def construct(self):
@@ -90,3 +90,4 @@ def apply_scene_config(scene: Scene):
             ...
     """
     scene.camera.background_color = BACKGROUND_COLOR
+    Text.set_default(font=FONT_DEFAULT, color=TEXT_PRIMARY)
