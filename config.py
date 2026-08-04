@@ -40,7 +40,7 @@ ANIM_SPEED_SLOW = 1.5     # Animation chậm (giải thích chi tiết)
 # =============================================================================
 # FONT SETTINGS
 # =============================================================================
-FONT_DEFAULT = "Times New Roman"  # Font chuẩn học thuật cho toàn bộ nhóm
+FONT_DEFAULT = "sans-serif"  # Font chuẩn không bị lỗi kerning/spacing trong Pango trên Windows
 
 # Font sizes (tỷ lệ cho Text mobject)
 FONT_SIZE_TITLE = 56         # Tiêu đề chính
